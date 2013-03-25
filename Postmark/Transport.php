@@ -52,7 +52,11 @@ class Transport
             $data[] = $message->getPayload();
         }
 
-        return $this->post('email/batch', $data);
+        if(count($data) === 1) {
+            return $this->post('email', $data[0]);
+        } else {
+            return $this->post('email/batch', $data);
+        }
     }
 
     /**
