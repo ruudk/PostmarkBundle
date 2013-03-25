@@ -115,7 +115,7 @@ $postmark->delayed()->send();
 
 You can also use Twig templates with this bundle:
 
-````twig
+````django
 {# AppBundle:Mail:email.html.twig #}
 {% block subject %}
 The subject of the message
