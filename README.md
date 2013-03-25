@@ -54,7 +54,7 @@ Congratulations! You're ready.
 
 ## Usage
 
-To compose a message and send it directly:
+### Composing messages
 
 ````php
 /**
@@ -67,56 +67,35 @@ $message->addTo('test@gmail.com');
 $message->setSubject('Subject');
 $message->setTextBody('Body');
 $message->setHtmlBody('Body');
+````
 
+### Sending messages
+
+If you want to send the message directly:
+````php
 $postmark->send($message);
 ````
 
-To send the message to a Resque worker, call `delayed()`.
+To send the message to a Resque worker, add an extra `delayed()` method:
 ````php
-/**
- * @var \Ruudk\PostmarkBundle\Postmark\Postmark $postmark
- */
-$postmark = $this->container->get('ruudk_postmark.postmark');
-
-$message = $postmark->compose();
-$message->addTo('test@gmail.com');
-$message->setSubject('Subject');
-$message->setTextBody('Body');
-$message->setHtmlBody('Body');
-
 $postmark->delayed()->send($message);
 ````
 
-To send multiple messages in a batch (single api call)
+### Batches
+
+To send multiple messages in a batch (one API call):
 ````php
-/**
- * @var \Ruudk\PostmarkBundle\Postmark\Postmark $postmark
- */
-$postmark = $this->container->get('ruudk_postmark.postmark');
-
-$message = $postmark->compose();
-$message->addTo('test@gmail.com');
-$message->setSubject('Subject');
-$message->setTextBody('Body');
-$message->setHtmlBody('Body');
-
-$postmark->enqueue($message);
-
-$message = $postmark->compose();
-$message->addTo('test2@gmail.com');
-$message->setSubject('Subject');
-$message->setTextBody('Body');
-$message->setHtmlBody('Body');
-
-$postmark->enqueue($message);
+$postmark->enqueue($message1);
+$postmark->enqueue($anotherMessage);
 
 $postmark->send();
-// Or send it to a worker:
-$postmark->delayed()->send();
 ````
 
-You can also use Twig templates with this bundle:
+### Twig templates
 
+This bundle supports Twig so that you can send a new message using a Twig template as a base.
+
+Create a Twig template with a couple of blocks. It's not necessary to have them all.
 ````django
 {# AppBundle:Mail:email.html.twig #}
 {% block subject %}
@@ -135,12 +114,8 @@ How are you today?
 {% endblock html %}
 ````
 
+And compose the message:
 ````php
-/**
- * @var \Ruudk\PostmarkBundle\Postmark\Postmark $postmark
- */
-$postmark = $this->container->get('ruudk_postmark.postmark');
-
 $message = $postmark->compose('AppBundle:Mail:email.html.twig', array(
     'name' => 'Ruud'
 ));
@@ -148,3 +123,14 @@ $message->addTo('test@gmail.com');
 
 $postmark->send($message);
 ````
+
+### Resque
+
+If you want to use a Resque worker to send the messages you'll have to start the worker first:
+`php app/console bcc:resque:worker-start -f postmark`
+
+Now when you send a message with the `delayed()` method the worker will pick it up and send it.
+
+## Author
+
+Ruud Kamphuis
