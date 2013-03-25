@@ -1,0 +1,42 @@
+{
+    "name":        "ruudk/postmark-bundle",
+    "type":        "symfony-bundle",
+    "description": "This bundle lets you offload the sending of a Postmark message to a Resque worker",
+    "keywords":    ["postmark", "resque", "symfony2"],
+    "homepage":    "http://github.com/ruudk/PostmarkBundle",
+    "license":     "MIT",
+
+    "authors": [
+        {
+            "name": "Ruud Kamphuis",
+            "email": "ruudk@mphuis.com"
+        },
+        {
+            "name": "Contributors",
+            "homepage": "https://github.com/ruudk/PostmarkBundle/contributors"
+        }
+    ],
+
+    "require": {
+        "php": ">=5.3.2",
+        "symfony/symfony": ">=2.1,<2.3-dev",
+        "kriswallsmith/buzz": "~0.9",
+        "bcc/resque-bundle": "1.1"
+    },
+
+    "require-dev": {
+        "symfony/class-loader": "*",
+        "symfony/yaml": "*",
+        "symfony/twig-bundle": "*",
+        "doctrine/doctrine-bundle": "*",
+        "doctrine/orm": "*"
+    },
+
+    "autoload": {
+        "psr-0": {
+            "Ruudk\\PostmarkBundle": ""
+        }
+    },
+
+    "target-dir": "Ruudk/PostmarkBundle"
+}
