@@ -1,7 +1,7 @@
 {
     "name":        "ruudk/postmark-bundle",
     "type":        "symfony-bundle",
-    "description": "This bundle lets you offload the sending of a Postmark message to a Resque worker",
+    "description": "This bundle lets you send messages via Postmark. It can offload the sending of messages to a Resque worker for speed and reliability.",
     "keywords":    ["postmark", "resque", "symfony2"],
     "homepage":    "http://github.com/ruudk/PostmarkBundle",
     "license":     "MIT",

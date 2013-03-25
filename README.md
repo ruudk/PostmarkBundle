@@ -1,6 +1,8 @@
 RuudkPostmarkBundle
 ===================
 
+[![Build Status](https://travis-ci.org/ruudk/PostmarkBundle.png?branch=master)](https://travis-ci.org/ruudk/PostmarkBundle)
+
 This bundle lets you send messages via [Postmark](http://www.postmarkapp.com). It can offload the sending of messages to a [Resque worker](https://github.com/michelsalib/BCCResqueBundle) for speed and reliability.
 
 ## Installation
