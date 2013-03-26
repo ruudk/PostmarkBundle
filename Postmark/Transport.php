@@ -56,6 +56,13 @@ class Transport
 
         if(count($data) === 1) {
             return $this->post('email', $data[0]);
+        } elseif(count($data) > 500) {
+            $results = array();
+            $chunks = array_chunk($data, 500);
+            foreach($chunks AS $chunk) {
+                $results += $this->post('email/batch', $chunk);
+            }
+            return $results;
         } else {
             return $this->post('email/batch', $data);
         }
