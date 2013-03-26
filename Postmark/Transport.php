@@ -93,19 +93,31 @@ class Transport
                 'Accept'                  => 'application/json'
             ), json_encode($data));
 
-            $json = json_decode($response->getContent(), true);
-
-            if($json['ErrorCode'] > 0) {
-                if($json['ErrorCode'] !== 406) {
-                    /**
-                     * ErrorCode 406 means Inactive recipient, no need to throw an exception for that.
-                     * For the rest, throw an exception.
-                     */
-                    throw new PostmarkException($json['Message'], $json['ErrorCode']);
-                }
+            if($response->getStatusCode() === 401) {
+                throw new PostmarkException('Unauthorized: Missing or incorrect API Key header', 401);
             }
 
-            return $json;
+            if($response->getStatusCode() === 500) {
+                throw new PostmarkException('Internal Server Error: The Postmark API returned a 500 error', 500);
+            }
+
+            if($response->getStatusCode() === 200 || $response->getStatusCode() === 422) {
+                $json = json_decode($response->getContent(), true);
+
+                if(isset($json['ErrorCode']) && $json['ErrorCode'] > 0) {
+                    if($json['ErrorCode'] !== 406) {
+                        /**
+                         * ErrorCode 406 means Inactive recipient, no need to throw an exception for that.
+                         * For the rest, throw an exception.
+                         */
+                        throw new PostmarkException($json['Message'], $json['ErrorCode']);
+                    }
+                }
+
+                return $json;
+            }
+        } catch(PostmarkException $exception) {
+            throw $exception;
         } catch(ClientException $exception) {
             throw new PostmarkException($exception->getMessage(), $exception->getCode(), $exception);
         } catch(\Exception $exception) {
