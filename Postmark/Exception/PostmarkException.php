@@ -11,7 +11,7 @@
 
 namespace Ruudk\PostmarkBundle\Postmark\Exception;
 
-class PostmarkException extends \Exception
+class PostmarkException extends \RuntimeException
 {
 
 }

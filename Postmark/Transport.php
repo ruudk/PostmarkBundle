@@ -13,6 +13,8 @@ namespace Ruudk\PostmarkBundle\Postmark;
 
 use Buzz\Browser;
 use Buzz\Client\Curl;
+use Buzz\Exception\ClientException;
+use Ruudk\PostmarkBundle\Postmark\Exception\PostmarkException;
 
 class Transport
 {
@@ -66,19 +68,35 @@ class Transport
      */
     protected function post($path, array $data)
     {
-        $browser = new Browser(new Curl());
+        try {
+            $browser = new Browser(new Curl());
 
-        /**
-         * @var \Buzz\Message\Response $response
-         */
-        $response = $browser->post('https://api.postmarkapp.com/' . $path, array(
-            'X-Postmark-Server-Token' => $this->token,
-            'Content-Type'            => 'application/json',
-            'Accept'                  => 'application/json'
-        ), json_encode($data));
+            /**
+             * @var \Buzz\Message\Response $response
+             */
+            $response = $browser->post('https://api.postmarkapp.com/' . $path, array(
+                'X-Postmark-Server-Token' => $this->token,
+                'Content-Type'            => 'application/json',
+                'Accept'                  => 'application/json'
+            ), json_encode($data));
 
-        $json = json_decode($response->getContent(), true);
+            $json = json_decode($response->getContent(), true);
 
-        return $json;
+            if($json['ErrorCode'] > 0) {
+                if($json['ErrorCode'] !== 406) {
+                    /**
+                     * ErrorCode 406 means Inactive recipient, no need to throw an exception for that.
+                     * For the rest, throw an exception.
+                     */
+                    throw new PostmarkException($json['Message'], $json['ErrorCode']);
+                }
+            }
+
+            return $json;
+        } catch(ClientException $exception) {
+            throw new PostmarkException($exception->getMessage(), $exception->getCode(), $exception);
+        } catch(\Exception $exception) {
+            throw new PostmarkException($exception->getMessage(), $exception->getCode(), $exception);
+        }
     }
 }

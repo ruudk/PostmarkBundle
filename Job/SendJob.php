@@ -12,8 +12,8 @@
 namespace Ruudk\PostmarkBundle\Job;
 
 use BCC\ResqueBundle\ContainerAwareJob;
+use Ruudk\PostmarkBundle\Postmark\Exception\PostmarkException;
 use Ruudk\PostmarkBundle\Postmark\Message;
-use Ruudk\PostmarkBundle\Postmark\Postmark;
 
 class SendJob extends ContainerAwareJob
 {
@@ -60,6 +60,13 @@ class SendJob extends ContainerAwareJob
          */
         $message = unserialize($args['message']);
 
-        $this->transport->send($message);
+        try {
+            $this->transport->send($message);
+        } catch(PostmarkException $exception) {
+            /**
+             * Let the job fail, so that we can retry later
+             */
+            throw $exception;
+        }
     }
 }
