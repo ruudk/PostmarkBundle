@@ -12,6 +12,7 @@
 namespace Ruudk\PostmarkBundle\Tests\Postmark;
 
 use BCC\ResqueBundle\Resque;
+use Buzz\Client\Curl;
 use Ruudk\PostmarkBundle\Postmark\Postmark;
 use Ruudk\PostmarkBundle\Postmark\Transport;
 
@@ -24,7 +25,7 @@ class PostmarkTest extends \PHPUnit_Framework_TestCase
      */
     protected function getTransport()
     {
-        return new Transport('POSTMARK_API_TEST');
+        return new Transport(new Curl, 'POSTMARK_API_TEST');
     }
 
     /**

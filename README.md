@@ -43,9 +43,13 @@ Optionally, you can specify extra options
 
 ``` yaml
 ruudk_postmark:
-    from_email: info@my-app.com   # Default from email
-    from_name: My App, Inc        # Default from name
-    queue: my-queue-name          # Resque queue name to use, default is 'postmark'
+    from:
+        email: info@my-app.com   # Default from email
+        name: My App, Inc        # Default from name
+    resque:
+        queue: my-queue-name     # Resque queue name to use, default is 'postmark'
+    curl:
+        timeout: 10              # Default Buzz\Curl timeout is 5
 ````
 
 If you want to configure the BCCResqueBundle, check the [docs](https://github.com/michelsalib/BCCResqueBundle#optional-set-configuration).

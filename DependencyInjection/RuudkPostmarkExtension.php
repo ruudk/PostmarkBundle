@@ -30,16 +30,23 @@ class RuudkPostmarkExtension extends Extension
             $container->setParameter('ruudk_postmark.token', $config['token']);
         }
 
-        if(isset($config['from_email'])) {
-            $container->setParameter('ruudk_postmark.from_email', $config['from_email']);
+        if(isset($config['from'])) {
+            $container->getDefinition('ruudk_postmark.postmark')->addMethodCall("setFrom", array(
+                $config['from']['email'],
+                isset($config['from']['name']) ? $config['from']['name'] : null
+            ));
         }
 
-        if(isset($config['from_name'])) {
-            $container->setParameter('ruudk_postmark.from_name', $config['from_name']);
+        if(isset($config['resque'])) {
+            if(isset($config['resque']['queue'])) {
+                $container->setParameter('ruudk_postmark.resque.queue', $config['resque']['queue']);
+            }
         }
 
-        if(isset($config['queue_name'])) {
-            $container->setParameter('ruudk_postmark.queue_name', $config['queue_name']);
+        if(isset($config['curl'])) {
+            if(isset($config['curl']['timeout'])) {
+                $container->getDefinition('ruudk_postmark.curl')->addMethodCall("setTimeout", array($config['curl']['timeout']));
+            }
         }
     }
 }

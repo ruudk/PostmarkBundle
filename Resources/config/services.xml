@@ -7,14 +7,16 @@
     <parameters>
         <parameter key="ruudk_postmark.postmark.class">Ruudk\PostmarkBundle\Postmark\Postmark</parameter>
         <parameter key="ruudk_postmark.transport.class">Ruudk\PostmarkBundle\Postmark\Transport</parameter>
+        <parameter key="ruudk_postmark.curl.class">Buzz\Client\Curl</parameter>
         <parameter key="ruudk_postmark.token" />
-        <parameter key="ruudk_postmark.from_email" />
-        <parameter key="ruudk_postmark.from_name" />
-        <parameter key="ruudk_postmark.queue_name" />
+        <parameter key="ruudk_postmark.resque.queue" />
     </parameters>
 
     <services>
+        <service id="ruudk_postmark.curl" class="%ruudk_postmark.curl.class%" />
+
         <service id="ruudk_postmark.transport" class="%ruudk_postmark.transport.class%">
+            <argument type="service" id="ruudk_postmark.curl" />
             <argument>%ruudk_postmark.token%</argument>
         </service>
 
@@ -22,11 +24,7 @@
             <argument type="service" id="ruudk_postmark.transport" />
             <argument type="service" id="twig" />
             <argument type="service" id="bcc_resque.resque" />
-            <argument>%ruudk_postmark.queue_name%</argument>
-            <call method="setFrom">
-                <argument>%ruudk_postmark.from_email%</argument>
-                <argument>%ruudk_postmark.from_name%</argument>
-            </call>
+            <argument>%ruudk_postmark.resque.queue%</argument>
         </service>
     </services>
 </container>

@@ -19,6 +19,11 @@ use Ruudk\PostmarkBundle\Postmark\Exception\PostmarkException;
 class Transport
 {
     /**
+     * @var \Buzz\Client\Curl
+     */
+    protected $curl;
+
+    /**
      * Postmark API token
      *
      * @var string
@@ -28,8 +33,9 @@ class Transport
     /**
      * @param string $token
      */
-    public function __construct($token)
+    public function __construct(Curl $curl, $token)
     {
+        $this->curl = $curl;
         $this->token = $token;
     }
 
@@ -76,7 +82,7 @@ class Transport
     protected function post($path, array $data)
     {
         try {
-            $browser = new Browser(new Curl());
+            $browser = new Browser($this->curl);
 
             /**
              * @var \Buzz\Message\Response $response
