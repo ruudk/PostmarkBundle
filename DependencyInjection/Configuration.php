@@ -39,7 +39,6 @@ class Configuration implements ConfigurationInterface
                 ->arrayNode('resque')
                     ->children()
                         ->scalarNode('queue')
-                            ->defaultValue('postmark')
                             ->end()
                         ->end()
                     ->end()

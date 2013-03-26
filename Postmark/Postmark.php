@@ -12,6 +12,7 @@
 namespace Ruudk\PostmarkBundle\Postmark;
 
 use Ruudk\PostmarkBundle\Job\SendJob;
+use Ruudk\PostmarkBundle\Postmark\Exception\InvalidArgumentException;
 use Twig_Environment;
 use BCC\ResqueBundle\Resque;
 
@@ -35,7 +36,7 @@ class Postmark
     /**
      * @var string
      */
-    protected $queueName = 'postmark';
+    protected $queueName;
 
     /**
      * @var bool
@@ -62,6 +63,11 @@ class Postmark
         $this->transport = $transport;
         $this->twig = $twig;
         $this->resque = $resque;
+
+        if(empty($queueName)) {
+            throw new InvalidArgumentException('Specify the name of the Resque queue.');
+        }
+
         $this->queueName = $queueName;
     }
 

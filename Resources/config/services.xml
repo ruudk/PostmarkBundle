@@ -9,7 +9,7 @@
         <parameter key="ruudk_postmark.transport.class">Ruudk\PostmarkBundle\Postmark\Transport</parameter>
         <parameter key="ruudk_postmark.curl.class">Buzz\Client\Curl</parameter>
         <parameter key="ruudk_postmark.token" />
-        <parameter key="ruudk_postmark.resque.queue" />
+        <parameter key="ruudk_postmark.resque.queue">postmark</parameter>
     </parameters>
 
     <services>
