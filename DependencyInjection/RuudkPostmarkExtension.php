@@ -30,6 +30,10 @@ class RuudkPostmarkExtension extends Extension
             $container->setParameter('ruudk_postmark.token', $config['token']);
         }
 
+        if(isset($config['delayed']) && $config['delayed'] === true) {
+            $container->getDefinition('ruudk_postmark.postmark')->addMethodCall("delayed", array(true));
+        }
+
         if(isset($config['from'])) {
             $container->getDefinition('ruudk_postmark.postmark')->addMethodCall("setFrom", array(
                 $config['from']['email'],

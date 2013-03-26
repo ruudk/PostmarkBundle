@@ -43,6 +43,7 @@ Optionally, you can specify extra options
 
 ``` yaml
 ruudk_postmark:
+    delayed: true                # Offload everything to a Resque worker by default
     from:
         email: info@my-app.com   # Default from email
         name: My App, Inc        # Default from name
