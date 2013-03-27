@@ -135,6 +135,8 @@ class Postmark
         if($message !== null) {
             if($this->delayed) {
                 $this->resque->enqueue(SendJob::create($this->queueName, $message));
+                
+                return 'queued';
             } else {
                 return $this->transport->send($message);
             }
