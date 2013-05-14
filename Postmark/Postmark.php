@@ -44,6 +44,11 @@ class Postmark
     protected $delayed = false;
 
     /**
+     * @var bool
+     */
+    protected $disable_delivery = false;
+
+    /**
      * @var array
      */
     protected $queue = array();
@@ -130,8 +135,23 @@ class Postmark
         return $this;
     }
 
+    /**
+     * @param bool $disable_delivery
+     * @return \Ruudk\PostmarkBundle\Postmark\Postmark
+     */
+    public function disableDelivery($disable_delivery = true)
+    {
+        $this->disable_delivery = $disable_delivery;
+
+        return $this;
+    }
+
     public function send(Message $message = null)
     {
+        if($this->disable_delivery) {
+            return false;
+        }
+
         if($message !== null) {
             if($this->delayed) {
                 $this->resque->enqueue(SendJob::create($this->queueName, $message));

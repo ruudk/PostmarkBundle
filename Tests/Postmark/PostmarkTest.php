@@ -99,6 +99,22 @@ class PostmarkTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals("Body: Html", $payload['HtmlBody']);
     }
 
+    public function testDisabledDelivery()
+    {
+        $postmark = $this->getPostmark();
+        $postmark->disableDelivery(true);
+
+        $message = $postmark->compose();
+        $message->setFrom('test@gmail.com', 'My name');
+        $message->addTo('ruudk@mphuis.com', 'Ruud Kamphuis');
+        $message->setSubject("Message 1");
+        $message->setTextBody("PlainText");
+        $message->setHtmlBody("Html");
+
+        $result = $postmark->send($message);
+        $this->assertFalse($result);
+    }
+
     public function testQueueingAndBatch()
     {
         $postmark = $this->getPostmark();

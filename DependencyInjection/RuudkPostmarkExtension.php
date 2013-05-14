@@ -34,6 +34,10 @@ class RuudkPostmarkExtension extends Extension
             $container->getDefinition('ruudk_postmark.postmark')->addMethodCall("delayed", array(true));
         }
 
+        if(isset($config['disable_delivery']) && $config['disable_delivery'] === true) {
+            $container->getDefinition('ruudk_postmark.disable_delivery')->addMethodCall("disable_delivery", array(true));
+        }
+
         if(isset($config['from'])) {
             $container->getDefinition('ruudk_postmark.postmark')->addMethodCall("setFrom", array(
                 $config['from']['email'],
