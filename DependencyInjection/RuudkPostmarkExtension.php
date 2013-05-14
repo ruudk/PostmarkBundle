@@ -35,7 +35,7 @@ class RuudkPostmarkExtension extends Extension
         }
 
         if(isset($config['disable_delivery']) && $config['disable_delivery'] === true) {
-            $container->getDefinition('ruudk_postmark.disable_delivery')->addMethodCall("disable_delivery", array(true));
+            $container->getDefinition('ruudk_postmark.postmark')->addMethodCall("disableDelivery", array(true));
         }
 
         if(isset($config['from'])) {
