@@ -52,6 +52,8 @@ class Configuration implements ConfigurationInterface
                     ->children()
                         ->scalarNode('timeout')
                             ->end()
+                        ->scalarNode('connect_timeout')
+                            ->end()
                         ->end()
                     ->end()
             ->end()

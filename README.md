@@ -52,6 +52,7 @@ ruudk_postmark:
         queue: my-queue-name     # Resque queue name to use, default is 'postmark'
     curl:
         timeout: 10              # Default Buzz\Curl timeout is 5
+        connect_timeout: 2
 ````
 
 If you want to configure the BCCResqueBundle, check the [docs](https://github.com/michelsalib/BCCResqueBundle#optional-set-configuration).

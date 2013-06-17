@@ -55,6 +55,10 @@ class RuudkPostmarkExtension extends Extension
             if(isset($config['curl']['timeout'])) {
                 $container->getDefinition('ruudk_postmark.curl')->addMethodCall("setTimeout", array($config['curl']['timeout']));
             }
+
+            if(isset($config['curl']['connect_timeout'])) {
+                $container->getDefinition('ruudk_postmark.curl')->addMethodCall("setOption", array(CURLOPT_CONNECTTIMEOUT, $config['curl']['connect_timeout']));
+            }
         }
     }
 }
