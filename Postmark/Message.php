@@ -51,8 +51,8 @@ class Message
     public function setFrom($email, $name = null)
     {
         if(!empty($name)) {
-            $this->payload['From'] = sprintf("%s <%s>",
-                $name,
+            $this->payload['From'] = sprintf('"%s" <%s>',
+                str_replace('"', '', $name),
                 $email
             );
         } else {
@@ -65,8 +65,8 @@ class Message
     public function addTo($email, $name = null)
     {
         if(!empty($name)) {
-            $this->to[] = sprintf("%s <%s>",
-                $name,
+            $this->to[] = sprintf('"%s" <%s>',
+                str_replace('"', '', $name),
                 $email
             );
         } else {
@@ -81,8 +81,8 @@ class Message
     public function addCc($email, $name = null)
     {
         if(!empty($name)) {
-            $this->cc[] = sprintf("%s <%s>",
-                $name,
+            $this->cc[] = sprintf('"%s" <%s>',
+                str_replace('"', '', $name),
                 $email
             );
         } else {
@@ -97,8 +97,8 @@ class Message
     public function addBcc($email, $name = null)
     {
         if(!empty($name)) {
-            $this->bcc[] = sprintf("%s <%s>",
-                $name,
+            $this->bcc[] = sprintf('"%s" <%s>',
+                str_replace('"', '', $name),
                 $email
             );
         } else {
@@ -113,8 +113,8 @@ class Message
     public function setReplyTo($email, $name = null)
     {
         if(!empty($name)) {
-            $this->payload['ReplyTo'] = sprintf("%s <%s>",
-                $name,
+            $this->payload['ReplyTo'] = sprintf('"%s" <%s>',
+                str_replace('"', '', $name),
                 $email
             );
         } else {
