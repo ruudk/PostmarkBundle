@@ -63,7 +63,7 @@ class PostmarkTest extends \PHPUnit_Framework_TestCase
         $message = $postmark->compose();
         $this->assertNotEmpty($message->getPayload());
         $payload = $message->getPayload();
-        $this->assertEquals('My name <test@gmail.com>', $payload['From']);
+        $this->assertEquals('"My name" <test@gmail.com>', $payload['From']);
     }
 
     public function testCompose()
